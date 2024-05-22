@@ -24,6 +24,15 @@ jobs:
       - name: Verify Terraform Installation
         run: terraform version
 
+      - name: Print Working Directory
+        run: pwd
+
+      - name: List Directory Contents
+        run: ls -al
+
+      - name: List Terraform Directory Contents
+        run: ls -al ./terraform
+
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
