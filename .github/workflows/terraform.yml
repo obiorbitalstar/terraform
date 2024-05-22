@@ -47,25 +47,6 @@ jobs:
           TF_VAR_machine_type: ${{ secrets.TF_VAR_machine_type }}
           TF_VAR_disk_size_gb: ${{ secrets.TF_VAR_disk_size_gb }}
           TF_INPUT: false
-        run: terraform apply -auto-approve -input=false -lock=false -var="credentials=/tmp/credentials.json"
+        run: terraform apply -auto-approve -input=false  -var="credentials=/tmp/credentials.json"
 
-  deploy:
-    needs: terraform
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'latest'
-
-      - name: Configure kubectl
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > $HOME/.kube/config
-
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl get all
+  
