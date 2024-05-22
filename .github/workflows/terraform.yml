@@ -31,7 +31,9 @@ jobs:
         run: ls -al
 
       - name: Terraform Init
-        run: terraform init
+        env:
+          TF_INPUT: false
+        run: terraform init -input=false
 
       - name: Terraform Apply
         env:
@@ -42,7 +44,8 @@ jobs:
           TF_VAR_initial_node_count: ${{ secrets.TF_VAR_initial_node_count }}
           TF_VAR_machine_type: ${{ secrets.TF_VAR_machine_type }}
           TF_VAR_disk_size_gb: ${{ secrets.TF_VAR_disk_size_gb }}
-        run: terraform apply -auto-approve
+          TF_INPUT: false
+        run: terraform apply -auto-approve -input=false
 
   deploy:
     needs: terraform
@@ -63,4 +66,4 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f deployment.yaml
+          kubectl get all
