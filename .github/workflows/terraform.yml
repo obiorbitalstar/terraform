@@ -25,10 +25,11 @@ jobs:
         run: terraform version
 
       - name: Terraform Init
-        working-directory: ./terraform
         run: terraform init
+        working-directory: ./terraform
 
       - name: Terraform Apply
+        run: terraform apply -auto-approve
         working-directory: ./terraform
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
@@ -38,7 +39,6 @@ jobs:
           TF_VAR_initial_node_count: ${{ secrets.TF_VAR_initial_node_count }}
           TF_VAR_machine_type: ${{ secrets.TF_VAR_machine_type }}
           TF_VAR_disk_size_gb: ${{ secrets.TF_VAR_disk_size_gb }}
-        run: terraform apply -auto-approve
 
   deploy:
     needs: terraform
