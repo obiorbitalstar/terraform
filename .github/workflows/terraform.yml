@@ -21,11 +21,15 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
 
+      - name: Verify Terraform Installation
+        run: terraform version
+
       - name: Terraform Init
+        working-directory: ./terraform
         run: terraform init
-        working-directory: terraform/
 
       - name: Terraform Apply
+        working-directory: ./terraform
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
           TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
@@ -35,7 +39,6 @@ jobs:
           TF_VAR_machine_type: ${{ secrets.TF_VAR_machine_type }}
           TF_VAR_disk_size_gb: ${{ secrets.TF_VAR_disk_size_gb }}
         run: terraform apply -auto-approve
-        working-directory: terraform/
 
   deploy:
     needs: terraform
