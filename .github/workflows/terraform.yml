@@ -30,14 +30,16 @@ jobs:
       - name: List Directory Contents
         run: ls -al
 
+      - name: Create Credentials File
+        run: echo "${{ secrets.GCP_SA_KEY }}" > /tmp/credentials.json
+
       - name: Terraform Init
         env:
           TF_INPUT: false
-        run: terraform init -input=false
+        run: terraform init -input=false -var="credentials=/tmp/credentials.json"
 
       - name: Terraform Apply
         env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
           TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
           TF_VAR_region: ${{ secrets.GCP_REGION }}
           TF_VAR_cluster_name: ${{ secrets.TF_VAR_cluster_name }}
@@ -45,7 +47,7 @@ jobs:
           TF_VAR_machine_type: ${{ secrets.TF_VAR_machine_type }}
           TF_VAR_disk_size_gb: ${{ secrets.TF_VAR_disk_size_gb }}
           TF_INPUT: false
-        run: terraform apply -auto-approve -input=false -lock=false  -var "credentials=${{ secrets.GCP_SA_KEY }}"
+        run: terraform apply -auto-approve -input=false -lock=false -var="credentials=/tmp/credentials.json"
 
   deploy:
     needs: terraform
