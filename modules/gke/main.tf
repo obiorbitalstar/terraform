@@ -17,4 +17,3 @@ resource "google_container_cluster" "primary" {
     command = "gcloud container clusters get-credentials ${self.name} --region ${self.location} --project ${var.project_id}"
   }
 }
-

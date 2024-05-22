@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "timer_state_file"
+    bucket = "your-terraform-state-bucket"
     prefix = "terraform/state"
   }
 }

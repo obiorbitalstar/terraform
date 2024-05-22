@@ -11,7 +11,6 @@ variable "region" {
 variable "credentials" {
   description = "The GCP credentials JSON"
   type        = string
-  default     = "/home/obi/fkit.json"
 }
 
 variable "cluster_name" {
