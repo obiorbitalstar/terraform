@@ -19,7 +19,7 @@ jobs:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1.3.6
+        uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
         run: terraform init
@@ -56,4 +56,4 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
-          kubectl apply -f deployment.yaml
+          kubectl get all
